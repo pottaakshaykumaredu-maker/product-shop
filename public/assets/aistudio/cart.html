@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart - Product Store</title>
+    <meta name="description" content="Review your shopping cart, manage quantities, and checkout securely." />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <!-- Top Examination Banner -->
+    <div class="exam-top-banner">
+      <div class="exam-top-banner-inner">
+        <span>🎓 <strong>EWP Lab External Examination:</strong> SHOPPING CART & ORDER CHECKOUT MODULE</span>
+        <button type="button" class="btn-exam-guide-link" onclick="openExamGuideModal()">Open Viva Guide &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="main-header">
+      <div class="header-container">
+        <a href="index.html" class="brand-logo" title="Product Store Home">
+          <div class="logo-row"><span class="logo-text">Product Store</span><span class="plus-pill">Plus</span></div>
+          <span class="plus-text">Explore <span class="plus-gold">Plus ✦</span></span>
+        </a>
+
+        <form class="search-box" onsubmit="handleSearchSubmit(event)">
+          <input type="text" id="searchInput" placeholder="Search for Products, Brands, Electronics, Books..." autocomplete="off" />
+          <button type="submit" title="Search">🔍</button>
+        </form>
+
+        <div class="header-actions">
+          <button type="button" class="btn-viva-pill" onclick="openExamGuideModal()">🎓 <span>Lab Guide</span></button>
+          <div id="userAccountSection"><a href="login.html" class="btn-login-header">Login</a></div>
+          <a href="cart.html" class="btn-cart-header" title="View Cart">
+            <div class="cart-icon-wrapper">🛒 <span id="cartBadge" class="cart-badge">0</span></div>
+            <span class="cart-label">Cart</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Categories Strip -->
+    <nav class="category-nav">
+      <div class="category-container">
+        <a href="index.html" class="cat-btn"><span>Home</span></a>
+        <a href="catalogue.html" class="cat-btn"><span>All Products</span></a>
+        <a href="catalogue.html?cat=electronics" class="cat-btn"><span>Electronics</span></a>
+        <a href="catalogue.html?cat=fashion" class="cat-btn"><span>Fashion & Wear</span></a>
+        <a href="catalogue.html?cat=home" class="cat-btn"><span>Home & Kitchen</span></a>
+        <a href="catalogue.html?cat=appliances" class="cat-btn"><span>Appliances</span></a>
+        <a href="catalogue.html?cat=books" class="cat-btn"><span>Books & Notes</span></a>
+        <div class="nav-divider"></div>
+        <a href="about.html" class="cat-btn"><span>About Us</span></a>
+        <a href="contact.html" class="cat-btn"><span>Contact Us</span></a>
+      </div>
+    </nav>
+
+    <!-- Cart Main Content -->
+    <main class="main-container">
+      <h1 class="cart-page-title">Shopping Cart & Order Review</h1>
+
+      <!-- Empty Cart Message -->
+      <div id="cartEmptyState" class="empty-cart-card" style="display: none;">
+        <span style="font-size: 56px;">🛒</span>
+        <h2>Your Shopping Cart is Empty!</h2>
+        <p>Explore our catalogue and add top deals to your cart.</p>
+        <a href="catalogue.html" class="btn-primary" style="margin-top: 14px; display: inline-block;">SHOP NOW</a>
+      </div>
+
+      <!-- Active Cart Grid Layout -->
+      <div id="cartMainLayout" class="cart-grid-layout">
+        <!-- Cart Items List (Injected by app.js) -->
+        <div class="cart-items-panel">
+          <div class="cart-panel-header">
+            <h3>Cart Items (<span id="cartSummaryCount">0</span>)</h3>
+            <span style="font-size: 12px; color: #388e3c; font-weight: 600;">✓ Free Delivery Eligible</span>
+          </div>
+          <div id="cartItemsList"></div>
+          <div class="cart-place-order-bar">
+            <button type="button" class="btn-checkout-cta" onclick="openCheckoutModal()">PLACE ORDER NOW</button>
+          </div>
+        </div>
+
+        <!-- Price Summary Panel -->
+        <div class="cart-summary-panel">
+          <h3 class="price-details-title">PRICE DETAILS</h3>
+          <div class="price-row"><span>Price (<span id="cartSummaryCount">0</span> items)</span><strong id="cartSummaryMrp">₹0</strong></div>
+          <div class="price-row"><span>Discount</span><strong id="cartSummaryDiscount" style="color: #388e3c;">- ₹0</strong></div>
+          <div class="price-row"><span>Delivery Charges</span><strong id="cartSummaryDelivery" style="color: #388e3c;">FREE</strong></div>
+          <div class="price-row total-row"><span>Total Payable</span><strong id="cartSummaryFinal" class="text-primary">₹0</strong></div>
+          <div id="cartSummarySavings" class="save-badge-green">You will save ₹0 on this order</div>
+          <button type="button" class="btn-checkout-cta" style="margin-top: 16px;" onclick="openCheckoutModal()">PROCEED TO CHECKOUT</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModalOverlay" class="modal-overlay" style="display: none;">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Delivery Address & Checkout</h3>
+          <button type="button" class="btn-modal-close" onclick="closeCheckoutModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="checkoutAlert" class="alert-box" style="display: none;"></div>
+          <div class="checkout-summary-mini">
+            <span>Order Total:</span>
+            <strong id="checkoutTotalVal" class="text-primary">₹0</strong>
+          </div>
+          <form id="checkoutForm" onsubmit="submitCheckoutOrder(event)">
+            <div class="form-group">
+              <label for="checkoutName">Full Name *</label>
+              <input type="text" id="checkoutName" required placeholder="e.g. Rahul Sharma" />
+            </div>
+            <div class="form-group">
+              <label for="checkoutPhone">10-Digit Mobile Number *</label>
+              <input type="tel" id="checkoutPhone" maxlength="10" required placeholder="e.g. 9876543210" />
+            </div>
+            <div class="form-group">
+              <label for="checkoutAddress">Delivery Address *</label>
+              <input type="text" id="checkoutAddress" required placeholder="e.g. Room 304, Campus Hostel B" />
+            </div>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="checkoutCity">City *</label>
+                <input type="text" id="checkoutCity" required placeholder="e.g. Hyderabad" />
+              </div>
+              <div class="form-group">
+                <label for="checkoutPincode">PIN Code *</label>
+                <input type="text" id="checkoutPincode" maxlength="6" required placeholder="e.g. 500001" />
+              </div>
+            </div>
+            <div class="modal-footer" style="padding: 16px 0 0; border-top: 1px solid #f0f0f0;">
+              <button type="button" class="btn-outline" onclick="closeCheckoutModal()">Cancel</button>
+              <button type="submit" class="btn-primary">CONFIRM & PLACE ORDER</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Success Receipt Modal -->
+    <div id="orderSuccessModalOverlay" class="modal-overlay" style="display: none;">
+      <div class="modal-card">
+        <div class="modal-header bg-green text-white">
+          <h3>🎉 Order Placed Successfully!</h3>
+          <button type="button" class="btn-modal-close text-white" onclick="closeOrderSuccessModal()">✕</button>
+        </div>
+        <div class="modal-body text-center">
+          <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Thank You for Your Order!</h2>
+          <div class="order-receipt-box" style="margin: 16px 0; text-align: left;">
+            <div class="receipt-row"><span>Order ID:</span><strong id="successOrderId" style="font-family: monospace;">ORD-2026</strong></div>
+            <div class="receipt-row"><span>Items:</span><strong id="successOrderItemsCount">0 items</strong></div>
+            <div class="receipt-row"><span>Total Paid:</span><strong id="successOrderTotal" class="text-primary">₹0</strong></div>
+            <div class="receipt-row"><span>Delivering to:</span><span id="successDeliveryAddress">Address</span></div>
+          </div>
+          <button type="button" class="btn-primary" onclick="closeOrderSuccessModal()">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>ABOUT PRODUCT STORE</h4>
+          <ul>
+            <li><a href="about.html">Project Overview</a></li>
+            <li><a href="about.html#architecture">3-Tier Architecture</a></li>
+            <li><a href="catalogue.html">Product Catalogue</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>HELP & CONTACT</h4>
+          <ul>
+            <li><a href="contact.html">Contact Laboratory Desk</a></li>
+            <li><a href="cart.html">View Shopping Cart</a></li>
+            <li><a href="login.html">Student Account Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-col-address">
+          <h4>LABORATORY DESK</h4>
+          <p>Department of Computer Science & Engineering</p>
+          <p class="footer-email">Email: <strong>ewp-lab@college.edu</strong></p>
+        </div>
+      </div>
+      <div class="footer-bottom-bar">
+        <div class="footer-bottom-inner"><p>&copy; 2026 Product Store - Engineering Web Programming Lab Examination.</p></div>
+      </div>
+    </footer>
+
+    <!-- Examination Viva Modal -->
+    <div id="examGuideModalOverlay" class="modal-overlay" style="display: none;">
+      <div class="modal-card modal-lg">
+        <div class="modal-header bg-navy text-white">
+          <h3>🎓 EWP Lab External Examination Handbook</h3>
+          <button type="button" class="btn-modal-close text-white" onclick="closeExamGuideModal()">✕</button>
+        </div>
+        <div class="exam-modal-tabs">
+          <button type="button" class="exam-tab active" data-pane="tab-stack" onclick="switchExamTab('tab-stack')">1. Tech Stack</button>
+          <button type="button" class="exam-tab" data-pane="tab-architecture" onclick="switchExamTab('tab-architecture')">2. Architecture</button>
+          <button type="button" class="exam-tab" data-pane="tab-viva" onclick="switchExamTab('tab-viva')">3. Top Viva Q&A</button>
+        </div>
+        <div class="modal-body exam-modal-body">
+          <div id="tab-stack" class="exam-pane active">
+            <h4>HTML5 + CSS3 + Vanilla JavaScript (ES6+) + Node.js Express</h4>
+            <p><strong>Zero React / Zero Angular:</strong> Built with pure web standards to demonstrate core DOM manipulation, event handling, and localStorage without framework baggage.</p>
+          </div>
+          <div id="tab-architecture" class="exam-pane">
+            <h4>3-Tier Architecture</h4>
+            <p><strong>Client Tier:</strong> HTML5/CSS3/Vanilla JS<br><strong>App Tier:</strong> Node.js Express server<br><strong>Storage:</strong> Browser localStorage state.</p>
+          </div>
+          <div id="tab-viva" class="exam-pane">
+            <h4>Key Viva Answers</h4>
+            <p><strong>Cart Persistence:</strong> Retained via <code>localStorage.setItem()</code> and <code>JSON.parse()</code>.<br><strong>Cart Math:</strong> Computed via <code>Array.prototype.reduce()</code>.</p>
+          </div>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn-primary" onclick="closeExamGuideModal()">Close Handbook</button></div>
+      </div>
+    </div>
+
+    <div id="toastNotification" class="toast-notification"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

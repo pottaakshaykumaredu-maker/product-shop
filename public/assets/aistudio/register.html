@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Product Store | Create Account</title>
+    <meta name="description" content="Create a student account on Product Store with complete client-side validation." />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <!-- Top Examination Banner -->
+    <div class="exam-top-banner">
+      <div class="exam-top-banner-inner">
+        <span>🎓 <strong>EWP Lab External Examination:</strong> USER REGISTRATION & Form Validation Module</span>
+        <button type="button" class="btn-exam-guide-link" onclick="openExamGuideModal()">Open Viva Guide &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="main-header">
+      <div class="header-container">
+        <a href="index.html" class="brand-logo" title="Product Store Home">
+          <div class="logo-row"><span class="logo-text">Product Store</span><span class="plus-pill">Plus</span></div>
+          <span class="plus-text">Explore <span class="plus-gold">Plus ✦</span></span>
+        </a>
+
+        <form class="search-box" onsubmit="handleSearchSubmit(event)">
+          <input type="text" id="searchInput" placeholder="Search for Products, Brands, Electronics, Books..." autocomplete="off" />
+          <button type="submit" title="Search">🔍</button>
+        </form>
+
+        <div class="header-actions">
+          <button type="button" class="btn-viva-pill" onclick="openExamGuideModal()">🎓 <span>Lab Guide</span></button>
+          <div id="userAccountSection"><a href="login.html" class="btn-login-header">Login</a></div>
+          <a href="cart.html" class="btn-cart-header" title="View Cart">
+            <div class="cart-icon-wrapper">🛒 <span id="cartBadge" class="cart-badge">0</span></div>
+            <span class="cart-label">Cart</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Categories Strip -->
+    <nav class="category-nav">
+      <div class="category-container">
+        <a href="index.html" class="cat-btn"><span>Home</span></a>
+        <a href="catalogue.html" class="cat-btn"><span>All Products</span></a>
+        <a href="catalogue.html?cat=electronics" class="cat-btn"><span>Electronics</span></a>
+        <a href="catalogue.html?cat=fashion" class="cat-btn"><span>Fashion & Wear</span></a>
+        <a href="catalogue.html?cat=home" class="cat-btn"><span>Home & Kitchen</span></a>
+        <a href="catalogue.html?cat=appliances" class="cat-btn"><span>Appliances</span></a>
+        <a href="catalogue.html?cat=books" class="cat-btn"><span>Books & Notes</span></a>
+        <div class="nav-divider"></div>
+        <a href="about.html" class="cat-btn"><span>About Us</span></a>
+        <a href="contact.html" class="cat-btn"><span>Contact Us</span></a>
+      </div>
+    </nav>
+
+    <!-- Register Main Content -->
+    <main class="main-container">
+      <div class="auth-wrapper">
+        <div class="auth-card">
+          <div class="auth-card-left">
+            <h2>Sign Up</h2>
+            <p>Create your Product Store account with verified student credentials.</p>
+            <div class="auth-vector"><span style="font-size: 56px;">📝</span></div>
+          </div>
+
+          <div class="auth-card-right">
+            <div id="regAlert" class="alert-box" style="display: none;"></div>
+
+            <form id="registerForm" onsubmit="handleRegisterSubmit(event)">
+              <div class="form-group">
+                <label for="regNameInput">Full Name *</label>
+                <input type="text" id="regNameInput" required placeholder="e.g. Rahul Sharma (min 3 chars)" />
+              </div>
+
+              <div class="form-group">
+                <label for="regEmailInput">Email Address *</label>
+                <input type="email" id="regEmailInput" required placeholder="e.g. rahul@college.edu" />
+              </div>
+
+              <div class="form-group">
+                <label for="regPhoneInput">10-Digit Mobile Number *</label>
+                <input type="tel" id="regPhoneInput" maxlength="10" required placeholder="e.g. 9876543210" />
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="regPassInput">Password *</label>
+                  <input type="password" id="regPassInput" required placeholder="Min 6 characters" />
+                </div>
+                <div class="form-group">
+                  <label for="regConfirmPassInput">Confirm Password *</label>
+                  <input type="password" id="regConfirmPassInput" required placeholder="Re-enter password" />
+                </div>
+              </div>
+
+              <button type="submit" class="btn-auth-submit">CREATE ACCOUNT</button>
+
+              <div class="auth-switch-link">
+                <span>Already have an account? </span>
+                <a href="login.html">Login here &rarr;</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>ABOUT PRODUCT STORE</h4>
+          <ul>
+            <li><a href="about.html">Project Overview</a></li>
+            <li><a href="about.html#architecture">3-Tier Architecture</a></li>
+            <li><a href="catalogue.html">Product Catalogue</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>HELP & CONTACT</h4>
+          <ul>
+            <li><a href="contact.html">Contact Laboratory Desk</a></li>
+            <li><a href="cart.html">View Shopping Cart</a></li>
+            <li><a href="login.html">Student Account Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-col-address">
+          <h4>LABORATORY DESK</h4>
+          <p>Department of Computer Science & Engineering</p>
+          <p class="footer-email">Email: <strong>ewp-lab@college.edu</strong></p>
+        </div>
+      </div>
+      <div class="footer-bottom-bar">
+        <div class="footer-bottom-inner"><p>&copy; 2026 Product Store - Engineering Web Programming Lab Examination.</p></div>
+      </div>
+    </footer>
+
+    <!-- Examination Viva Modal -->
+    <div id="examGuideModalOverlay" class="modal-overlay" style="display: none;">
+      <div class="modal-card modal-lg">
+        <div class="modal-header bg-navy text-white">
+          <h3>🎓 EWP Lab External Examination Handbook</h3>
+          <button type="button" class="btn-modal-close text-white" onclick="closeExamGuideModal()">✕</button>
+        </div>
+        <div class="exam-modal-tabs">
+          <button type="button" class="exam-tab active" data-pane="tab-stack" onclick="switchExamTab('tab-stack')">1. Tech Stack</button>
+          <button type="button" class="exam-tab" data-pane="tab-architecture" onclick="switchExamTab('tab-architecture')">2. Architecture</button>
+          <button type="button" class="exam-tab" data-pane="tab-viva" onclick="switchExamTab('tab-viva')">3. Top Viva Q&A</button>
+        </div>
+        <div class="modal-body exam-modal-body">
+          <div id="tab-stack" class="exam-pane active">
+            <h4>Form Validation Logic</h4>
+            <p>Full validation for name (min 3), email (RFC regex), mobile (10 digits starting with 6-9), and matching passwords.</p>
+          </div>
+          <div id="tab-architecture" class="exam-pane">
+            <h4>No Database Overhead</h4>
+            <p>Uses browser <code>localStorage</code> for lightweight client-authoritative state.</p>
+          </div>
+          <div id="tab-viva" class="exam-pane">
+            <h4>Viva Answer</h4>
+            <p>Prevents page reloading via <code>event.preventDefault()</code> and shows instant visual error message in <code>#regAlert</code>.</p>
+          </div>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn-primary" onclick="closeExamGuideModal()">Close Handbook</button></div>
+      </div>
+    </div>
+
+    <div id="toastNotification" class="toast-notification"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
